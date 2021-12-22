@@ -18,7 +18,8 @@ class Category(models.Model):
 
 class Actor(models.Model):
     """Akteuren und Regisseure"""
-    name = models.PositiveSmallIntegerField("Alter", default=0)
+    name = models.CharField("Name", max_length=100)
+    age = models.PositiveSmallIntegerField("Alter", default=0)
     description = models.TextField("Beschreibung")
     image = models.ImageField("Bildschirmbild", upload_to="actors/")
 
@@ -115,8 +116,8 @@ class Rating(models.Model):
         self.value
 
     class Meta:
-        verbose_name = "Der Stern des Ratings"
-        verbose_name_plural = "Die Sterne des Ratings"
+        verbose_name = "Rating"
+        verbose_name_plural = "Ratings"
 
 
 class Reviews(models.Model):
