@@ -1,7 +1,19 @@
+from django import forms
 from django.contrib import admin
-from .models import Category, Genre, Movie, MovieShots, Actor, Rating, RatingStar, Reviews
 from django.utils.safestring import mark_safe
 
+from .models import Category, Genre, Movie, MovieShots, Actor, Rating, RatingStar, Reviews
+
+
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+
+class MovieAdminForm(forms.ModelForm):
+    description = forms.CharField(label="Описание", widget=CKEditorUploadingWidget())
+
+    class Meta:
+        model = Movie
+        fields = '__all__'
 
 
 @admin.register(Category)
@@ -12,6 +24,7 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 class ReviewInline(admin.TabularInline):
+    """Отзывы на странице фильма"""
     model = Reviews
     extra = 1
     readonly_fields = ("name", "email")
@@ -27,6 +40,7 @@ class MovieShotsInline(admin.TabularInline):
 
     get_image.short_description = "Изображение"
 
+
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
     """Фильмы"""
@@ -37,6 +51,7 @@ class MovieAdmin(admin.ModelAdmin):
     save_on_top = True
     save_as = True
     list_editable = ("draft",)
+    form = MovieAdminForm
     readonly_fields = ("get_image",)
     fieldsets = (
         (None, {
@@ -60,11 +75,11 @@ class MovieAdmin(admin.ModelAdmin):
         }),
     )
 
-
     def get_image(self, obj):
         return mark_safe(f'<img src={obj.poster.url} width="100" height="110"')
 
     get_image.short_description = "Постер"
+
 
 @admin.register(Reviews)
 class ReviewAdmin(admin.ModelAdmin):
@@ -91,6 +106,10 @@ class ActorAdmin(admin.ModelAdmin):
     get_image.short_description = "Изображение"
 
 
+@admin.register(Rating)
+class RatingAdmin(admin.ModelAdmin):
+    """Рейтинг"""
+    list_display = ("star", "ip")
 
 
 @admin.register(MovieShots)
@@ -105,7 +124,6 @@ class MovieShotsAdmin(admin.ModelAdmin):
     get_image.short_description = "Изображение"
 
 
-admin.site.register(Rating)
 admin.site.register(RatingStar)
 
 admin.site.site_title = "Django Movies"
