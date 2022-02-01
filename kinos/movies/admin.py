@@ -1,5 +1,8 @@
 from django.contrib import admin
 from .models import Category, Genre, Movie, MovieShots, Actor, Rating, RatingStar, Reviews
+from django.utils.safestring import mark_safe
+
+
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -62,7 +65,13 @@ class GenreAdmin(admin.ModelAdmin):
 @admin.register(Actor)
 class ActorAdmin(admin.ModelAdmin):
     """Актеры"""
-    list_display = ("name", "age")
+    list_display = ("name", "age", "get_image")
+    readonly_fields = ("get_image",)
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="50" height="60"')
+
+    get_image.short_description = "Изображение"
 
 
 
@@ -70,7 +79,17 @@ class ActorAdmin(admin.ModelAdmin):
 @admin.register(MovieShots)
 class MovieShotsAdmin(admin.ModelAdmin):
     """Кадры из фильма"""
-    list_display = ("title", "movie")
+    list_display = ("title", "movie", "get_image")
+    readonly_fields = ("get_image",)
+
+    def get_image(self, obj):
+        return mark_safe(f'<img src={obj.image.url} width="50" height="60"')
+
+    get_image.short_description = "Изображение"
+
 
 admin.site.register(Rating)
 admin.site.register(RatingStar)
+
+admin.site.site_title = "Django Movies"
+admin.site.site_header = "Django Movies"
