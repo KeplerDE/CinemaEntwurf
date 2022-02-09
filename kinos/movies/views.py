@@ -1,12 +1,11 @@
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponse
+from django.http import  HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.base import View
 
 from .models import Movie, Category, Actor, Genre, Rating, Reviews
 from .forms import ReviewForm, RatingForm
-
 
 class GenreYear:
     """Genre"""
