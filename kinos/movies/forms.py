@@ -1,5 +1,5 @@
 from django import forms
-
+from captcha.fields import CaptchaField
 from .models import Reviews, Rating, RatingStar
 
 
@@ -8,6 +8,8 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Reviews
         fields = ("name", "email", "text")
+
+    captcha = CaptchaField()
 
 
 class RatingForm(forms.ModelForm):
