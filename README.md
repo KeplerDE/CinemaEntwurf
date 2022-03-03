@@ -37,11 +37,5 @@
 
     python manage.py runserver
 
-## License
-
-[BSD 3-Clause License](https://opensource.org/licenses/BSD-3-Clause)
-
-Copyright (c) 2021-present, DJWOMS - Omelchenko Michael
-
 
 
